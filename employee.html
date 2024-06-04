@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML forms</title>
+    <style type="text/css">
+        label {
+            width: 150px;
+            display: inline-block;
+        }
+        form {
+            border-radius: 10px;
+            background: rgba(202, 215, 228, 0.973);
+            color: rgb(8, 8, 11);
+            width: 55%;
+            padding: 12px;
+            margin: auto;
+            font-size: 18px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .submit {
+            text-align: right;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px 10px;
+        }
+        #textbox{
+            margin-left: 475px;
+            margin-top: -19px;
+        }
+    </style>
+    <script>
+         function setJoiningDateLimits() {
+            const dobInput = document.getElementById('dateOfBirth');
+            const joiningDateInput = document.getElementById('dateofjoining');
+            
+            dobInput.addEventListener('change', function() {
+                const dob = new Date(this.value);
+                const minJoiningDate = new Date(dob.getFullYear() + 18, dob.getMonth(), dob.getDate());
+                const today = new Date();
+                
+                const minDate = minJoiningDate.toISOString().split('T')[0];
+                const maxDate = today.toISOString().split('T')[0];
+                
+                joiningDateInput.min = minDate;
+                joiningDateInput.max = maxDate;
+            });
+        }
+
+        function numberOnly(input) {
+            var num = /[^0-9]/gi;
+            input.value = input.value.replace(num, "");
+        }
+
+        function addRow() {
+            var table = document.getElementById("skillsTable").getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow();
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+
+            var rowCount = table.rows.length;
+
+            cell1.innerHTML = rowCount + ".";
+            cell2.innerHTML = '<input type="text" name="language[]">';
+            cell3.innerHTML = '<input type="text" name="level[]">';
+            cell4.innerHTML = '<input type="file" name="certificate[]">';
+            cell5.innerHTML = '<button type="button" onclick="removeRow(this)">X</button>';
+        }
+
+        function removeRow(button) {
+            var table = document.getElementById("skillsTable").getElementsByTagName('tbody')[0];
+            if(table.rows.length > 1) {
+                var row=button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+                
+            } else {
+                   alert("Atleast one row should be required")
+
+            }
+           
+            
+            var table = document.getElementById("skillsTable").getElementsByTagName('tbody')[0];
+            for (var i =0; i < table.rows.length; i++) {
+                table.rows[i].cells[0].innerText = (i+1) + ".";
+            }
+        }
+
+        function toggle() {
+                    var selectBox = document.getElementById("select");
+                    var textBox = document.getElementById("textbox");
+                    if (selectBox.value==="others") {
+                        textBox.style.display="block";
+                    } else {
+                        textBox.style.display="none";
+                    }
+                }
+
+
+        window.onload = setJoiningDateLimits;
+    </script>
+</head>
+<body>
+    <center><h1>Employee Details<hr width="800px"></h1></center>
+    <form>
+        <label>First Name:</label>
+        <input type="text" title="First Name" placeholder="Enter a  first name" size="40"><br><br>
+        <label>Last Name:</label>
+        <input type="text" title="Last Name" placeholder="Enter a last name" size="40"><br><br>
+        <label>DOB:</label>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" style="width: 300px;"><br><br>
+        <label id="num">Age:</label>
+        <input type="number" id="age" name="age" min="18" max="65" oninput="numberOnly(this)" style="width: 300px;" ><br><br>
+        <label>Gender:</label>
+        <input type="radio" name="gender" value="male" >Male
+        <input type="radio" name="gender" value="female" >Female
+        <input type="radio" name="gender" value="female" >Others<br><br>
+        <label>City:</label>
+        <select id="select" onchange="toggle()" style="width: 300px;">
+            <option value=""></option>
+            <option value="chennai">Chennai</option>
+            <option value="coimbatore">Coimbatore</option>
+            <option value="others">Others</option>
+        </select>
+        <input type="text" id="textbox" style="display:none;"><br><br>
+        <label>State:</label>
+        <select id="select" onchange="toggle()"  style="width: 300px;">
+            <option value=""></option>
+            <option value="tamilnadu">Tamilnadu</option>
+            <option value="Others">Others</option>
+        </select>
+        <input type="text" id="textbox" style="display:none;"><br><br>
+        <label>Email:</label>
+        <input type="email" placeholder="example@gmail.com" size="40" required><br><br>
+        <label id="num">Contact No:</label>
+        <input type="tel" id="num" maxlength="10" oninput="numberOnly(this)" size="40" required><br><br>
+        <label>Qualification:</label>
+        <select style="width: 300px;">
+            <option></option>
+            <option>U.G</option>
+            <option>P.G</option>
+            <option>Dip</option>
+        </select><br><br>
+        <label>Designation:</label>
+        <input type="text" size="40"><br><br>
+        <label>Skills:</label>
+        <input type="text" size="40"><br><br>
+        <label>Language Known:</label>
+        <input type="checkbox" name="l1">
+        <label>English</label>
+        <input type="checkbox" name="l2">
+        <label>Hindi</label>
+        <input type="checkbox" name="l3">
+        <label>Tamil</label><br><br>
+        <label>Experience:</label>
+        <select style="width: 300px;">
+            <option></option>
+            <option>0</option>
+            <option>1</option>
+            <option selected>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+        </select><br><br>
+        <label>Date of Joining:</label>
+        <input type="date" id="dateofjoining" name="dateofjoining" style="width: 300px;"><br><br>
+        <label>Programming Skills:</label><br><br>
+        <table id="skillsTable">
+            <thead>
+                <tr>
+                    <th>s.no</th>
+                    <th>language</th>
+                    <th>level</th>
+                    <th>certificate</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>1.</td>
+                    <td><input type="text" name="language[]" ></td>
+                    <td><input type="text" name="level[]" ></td>
+                    <td><input type="file" name="certificate[]" id="certificate" accept=".docx"></td>
+                    <td><button type="button" onclick="removeRow(this)">X</button></td>
+                </tr>
+            
+                <tr>
+                    <td>2.</td>
+                    <td><input type="text" name="language[]"></td>
+                    <td><input type="text" name="level[]"></td>
+                    <td><input type="file" name="certificate[]" id="certificate" accept=".docx"></td>
+                    <td><button type="button" onclick="removeRow(this)">X</button></td>
+                </tr>
+                <tr>
+                    <td>3.</td>
+                    <td><input type="text" name="language[]"></td>
+                    <td><input type="text" name="level[]"></td>
+                    <td><input type="file" name="certificate[]" id="certificate" accept=".docx"></td>
+                    <td><button type="button" onclick="removeRow(this)">X</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" onclick="addRow()">+</button><br><br>
+        <label>Photo:</label>
+        <input type="file" id="photo" accept="image/png, image/jpeg"><br><br>
+        <div class="submit">
+            <input type="submit" name="submit" style="font-size: large;" id="submit">
+        </div>
+    </form>
+</body>
+</html>
+
